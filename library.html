@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+
+<script>
+
+
+
+/* Write a function that loops through the array and displays each book on the page. You can display 
+them in some sort of table, or each on their own “card”. It might help for now to manually add a few 
+books to your array so you can see the display.
+Add a “NEW BOOK” button that brings up a form allowing users to input the details for the new book: 
+author, title, number of pages, whether it’s been read and anything else you might want.
+Add a button on each book’s display to remove the book from the library.
+You will need to associate your DOM elements with the actual book objects in some way. 
+One easy solution is giving them a data-attribute that corresponds to the index of the library array.
+Add a button on each book’s display to change its read status.
+To facilitate this you will want to create the function that toggles a book’s read status 
+on your Book prototype instance.*/
+
+
+
+//create empty array at top, push into arary in display function,create button, use map or something to 
+//use add event listenr onto every array item, access their this.temp, update that
+
+let input;
+let container=document.createElement('table');
+let readarr=[];
+let rowarr;
+
+
+//read_status_button_arr=Array.from( document.querySelectorAll('.readstatus'));
+
+
+
+for (i=0; i<4; i++) {
+
+label_text=['Title:','Author:','Pages:','Have you read it?:'];
+
+label=document.createElement('label');
+ input=document.createElement('input');
+
+document.body.appendChild(label);
+document.body.appendChild(input);
+
+label.innerHTML=label_text[i];
+label.setAttribute('style','font-family:arial; font-weight:600;');
+input.setAttribute('style','margin-bottom:2em; margin-right:2.5em; margin-left:2.5em;')
+
+}
+
+const button= document.createElement('button');
+document.body.appendChild(button);
+button.innerHTML='Add a book';
+
+button.setAttribute('style','background-color:blue; color:white;');
+
+
+
+button.addEventListener('click', function () {
+
+  
+
+
+
+
+input=document.querySelectorAll('input');
+value=[input[0]['value'],input[1]['value'],input[2]['value'],input[3]['value']];
+
+
+
+let placeholder=new book(value[0],value[1],value[2],value[3]);
+placeholder.display();
+
+select_remove_button.push(removebook);
+select_remove_button.map(oncall);
+
+for (i=0; i<4; i++) {
+input=document.querySelectorAll('input'); 
+input[i]['value']=' ';
+}
+
+});
+
+
+
+function book(title,author,pages,temp) {
+
+this.title=title;
+this.author=author;
+this.pages=pages;
+this.temp=temp;
+
+}
+
+book.prototype.display= function() { 
+  
+  let store=['Title: '+this.title,'Author: '+this.author,'Pages: '+this.pages,this.temp];
+ container=document.createElement('table');
+  const tbody=document.createElement('tbody');
+  
+
+  container.setAttribute('style','margin-bottom:0.8em; margin-left:2em; display:inline;');
+
+  for (i=0; i<=4; i++) {
+    
+     row=document.createElement('tr');
+     data=document.createElement('td');
+
+
+     if (i==4) {
+      
+      
+      removebook=document.createElement('button');
+      removebook.setAttribute('style','background-color:red; color:white;');
+      removebook.setAttribute('class','removebook');
+      
+
+      tbody.appendChild(removebook);
+      
+      removebook.innerHTML='Remove book';
+
+
+      readstatus=document.createElement('button');
+      readstatus.setAttribute('style','background-color:red; color:white;');
+      readstatus.setAttribute('class','readstatus');
+      tbody.appendChild(readstatus);
+      readstatus.innerHTML='Did you read it?';
+
+      
+      readarr.push(readstatus);
+      //readarr.map(oncall_read_status);
+
+      if (readarr.length>=3) {
+      this.did_you_read();
+      }
+
+      rowarr=Array.from(document.querySelectorAll('.row_4'));
+      
+      return;
+}
+
+  
+     
+if (i==1) {
+  row.setAttribute('style','background-color:white;');
+  data.setAttribute('style','font-family:arial;');
+}
+
+ if (i==3) {
+  row.setAttribute('style','background-color:white;');
+  data.setAttribute('style','font-family:arial;');
+
+  row.setAttribute('class','row_4');
+  
+}
+
+else if (i==0 || i==2) {
+
+  row.setAttribute('style','background-color:#eae9fb;');
+  data.setAttribute('style','font-family:arial;');
+}
+
+
+
+  const itr=data.textContent=store[i];
+  row.appendChild(data);
+  tbody.appendChild(row);
+  container.appendChild(tbody);
+  const body=document.querySelector('body');
+  body.appendChild(container);
+
+  }
+  
+
+}
+
+//START HERE
+book.prototype.did_you_read=function(temp) {
+
+
+  //function y_or_n (item2,index,arr) { 
+
+//}
+//ITEM IS THE PROBLEM (readarr is assing with more than 1 time)
+  function oncall_read_status(item,index,arr) {
+    
+    let focus=item;
+    
+    
+    
+  item.addEventListener('click', function () {
+    
+    console.log(rowarr);
+    
+    blank=readarr.indexOf(focus);
+
+    
+    if (rowarr[blank].innerText=='No') {
+    rowarr[blank].innerText='Yes';
+    
+    }
+
+    else if (rowarr[blank].innerText=='Yes') {
+    rowarr[blank].innerText='No';
+    
+    }
+    //rowarr.map(y_or_n);
+
+
+});
+
+console.log(Array.from(readarr));
+}
+
+readarr.map(oncall_read_status);
+
+
+
+}
+
+
+
+const Harry_Potter=new book('Harry Potter','J.K.Rolling',222,'Yes');
+Harry_Potter.display();
+
+const Diary_Of_A_Wimpy_Kid=new book('Diary of A Wimpy Kid','Thomas Graham',555,'Yes');
+Diary_Of_A_Wimpy_Kid.display();
+
+const Enders_Game=new book('Enders Game','Jake Mullensberger',628,'Yes');
+Enders_Game.display();
+
+
+
+select_remove_button=Array.from( document.querySelectorAll('.removebook'));
+
+
+function oncall(item) {
+  item.addEventListener('click', function () {
+
+conceal=this.parentNode;
+conceal.setAttribute('style','display:none;');
+
+console.log(select_remove_button);
+
+
+
+});
+
+}
+
+
+
+select_remove_button.map(oncall);
+
+
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>
